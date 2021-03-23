@@ -17,7 +17,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div id="removePhone" class="cart-item ">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -26,17 +26,17 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="updateSpanText('phone',false)"  class="btn btn-success"><i class="fas fa-minus"></i></button>
+                           <input id="phone-count"  type="text" class="form-control text-center" value="1">
+                           <button onclick="updateSpanText('phone',true)"  class="btn btn-success"><i class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5 id="phone-total">$1219</h5>
+                        <img id="phoneRemoveBtn" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div id="removeCassing" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -44,17 +44,19 @@
                      </div>
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="updateSpanText('case',false)" class="btn btn-success"><i class="fas fa-minus"></i></button>
+                           <input id="case-count" type="text" class="form-control text-center" value="1">
+                           <button onclick="updateSpanText('case',true)" class="btn btn-success"><i class="fas fa-plus"></i></button>
 
                         </div>
-                        <h5>$59</h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <h5 id="case-total">$59</h5>
+                        <img id="cassingRemoveBtn" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
+               
 
+              
                <div class="cart-item">
                   <div class="row">
 
@@ -65,9 +67,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5 id="total-price">$1278</h5>
+                        <h5 id="tax-amount">$0</h5>
+                        <h5 id="grand-total">$1278</h5>
                      </div>
                   </div>
                </div>
@@ -78,6 +80,87 @@
          </div>
       </div>
    </section>
+   <script>
+      const phoneRemoveBtn = document.getElementById('phoneRemoveBtn');
+      phoneRemoveBtn.addEventListener('click', function () {
+         removePhone.style.display = 'none';
+      })
+      const cassingRemoveBtn = document.getElementById('cassingRemoveBtn');
+      cassingRemoveBtn.addEventListener('click', function () {
+         removeCassing.style.display = 'none';
+      })
+      
+
+      function updateSpanText(product, isIncrease) {
+         const caseInput =document.getElementById(product + '-count');
+         const caseCount = parseFloat(caseInput.value);
+         // const caseNewCount = caseCount - 1;
+         let caseNewCount = caseCount;
+         if (isIncrease == true) {
+             caseNewCount = caseCount + 1; 
+         }
+         if (isIncrease == false && caseCount > 0) {
+              caseNewCount = caseCount - 1;
+         }
+         caseInput.value = caseNewCount;
+
+         const caseTotal = document.getElementById(product + '-total');
+         // const caseNewTotal = caseNewCount * 59 ; 
+         let caseNewTotal = 0;
+         if (product == 'phone') {
+            caseNewTotal = caseNewCount * 1219 ;
+         }
+         if (product == 'case') {
+            caseNewTotal = caseNewCount * 59 ;
+         }
+         document.getElementById(product + '-total').innerText = '$' + caseNewTotal;
+         updateTotal();
+      }
+      function updateTotal() {
+         const phoneCount = getFloting('phone-count');
+         const caseCount = getFloting('case-count');
+         const totalPrice = phoneCount * 1219 + caseCount *59;
+         document.getElementById('total-price').innerText ='$' + totalPrice;
+
+         const tax = totalPrice * 0.1 ;
+         document.getElementById('tax-amount').innerText ='$' + Math.round(tax);
+
+         const grandTotal = tax + totalPrice;
+         document.getElementById('grand-total').innerText ='$' + grandTotal;  
+      }
+      function getFloting(id) {
+         const amount = document.getElementById(id);
+         const amountCount = parseFloat(amount.value);
+         return amountCount;
+
+      }
+          
+         //  function changeProductNumber(product, isIncrease) {
+         //    const productInput = document.getElementById(product + '-count');
+         //    productCount = parseFloat(productInput.value);
+
+         //    // const caseNewCount = caseCount - 1;
+         //    let productNewCount = productCount;
+         //     if (isIncrease == true) {
+         //            productNewCount = productCount + 1;
+                
+         //     }
+         //     if (isIncrease == false && productCount > 0) {
+         //       productNewCount = productCount - 1;
+                
+         //     }
+         //     productInput.value = productNewCount;
+            
+         //     if (product == 'phone') {
+         //        const productTotal = productNewCount *1219;
+         //     }
+         //     if (product == 'case') {
+         //       const productTotal = productNewCount *59;
+         //     }
+         //    document.getElementById(product + '-total').innerText = productTotal;
+         //  }
+
+   </script>
 </body>
 
 </html>
